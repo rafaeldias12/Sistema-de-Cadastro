@@ -23,11 +23,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Login</string>
+   <string>Cadastro</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>img/login.png</normaloff>img/login.png</iconset>
+    <normaloff>../_img/login.png</normaloff>../_img/login.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -62,7 +62,7 @@ background-color: rgb(0, 0, 0);</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(107, 176, 219);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -92,7 +92,7 @@ background-color: rgb(0, 0, 0);</string>
     <item>
      <widget class="QFrame" name="frame_2">
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(107, 176, 219);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -125,7 +125,7 @@ background-color: rgb(0, 0, 0);</string>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(16, 16, 16);
+          <string notr="true">background-color: rgb(162, 210, 255);
 border-radius: 10px;</string>
          </property>
          <property name="frameShape">
@@ -145,9 +145,14 @@ border-radius: 10px;</string>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
            <string>E-mail</string>
@@ -164,9 +169,14 @@ border-radius: 10px;</string>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
            <string>Login</string>
@@ -183,9 +193,14 @@ border-radius: 10px;</string>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
            <string>Senha</string>
@@ -196,15 +211,20 @@ border-radius: 10px;</string>
            <rect>
             <x>20</x>
             <y>310</y>
-            <width>81</width>
+            <width>91</width>
             <height>16</height>
            </rect>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
            <string>Repita a senha</string>
@@ -227,13 +247,14 @@ border-radius: 10px;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton{
-	background-color: rgb(85, 0, 255);
+	background-color: rgb(50, 76, 92);
 	background-position: center;
 	border-radius:5px;
 }
 QPushButton:hover{
-	background-color: rgb(85, 0, 255);
-	border: 3px solid rgb(148, 94, 255);
+	
+	background-color: rgb(107, 176, 219);
+	border: 2px solid rgb(255, 255, 255);
 }
 QPushButton:pressed{
 	border: 2px solid rgb(255, 255, 255);
@@ -247,20 +268,28 @@ QPushButton:pressed{
          <widget class="QLabel" name="label_6">
           <property name="geometry">
            <rect>
-            <x>0</x>
+            <x>-1</x>
             <y>-1</y>
-            <width>400</width>
-            <height>31</height>
+            <width>401</width>
+            <height>51</height>
            </rect>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
-            <pointsize>10</pointsize>
+            <family>Arial</family>
+            <pointsize>15</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
+          </property>
           <property name="text">
-           <string>Preencha os campos abaixo para cadastrar um novo usuário.</string>
+           <string>Cadastro de novo usuário.</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -277,14 +306,30 @@ QPushButton:pressed{
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);
-padding: 10px</string>
+           <string notr="true">QLineEdit{
+	border-bottom: 2px solid rgb(255, 255, 255);
+	border-radius: 0px;
+	padding: 5px;
+	padding-bottom: -10px;
+	background-color: rgb(162, 210, 255);
+	color: rgb(0, 0, 0);
+}
+
+QLineEdit:hover{
+	border-bottom: 2px solid rgb(107, 176, 219);
+	
+}
+
+QLineEdit:focus{
+	border-bottom: 2px solid rgb(107, 176, 219);
+}</string>
           </property>
           <property name="maxLength">
            <number>32</number>
@@ -304,14 +349,30 @@ padding: 10px</string>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);
-padding: 10px</string>
+           <string notr="true">QLineEdit{
+	border-bottom: 2px solid rgb(255, 255, 255);
+	border-radius: 0px;
+	padding: 5px;
+	padding-bottom: -10px;
+	background-color: rgb(162, 210, 255);
+	color: rgb(0, 0, 0);
+}
+
+QLineEdit:hover{
+	border-bottom: 2px solid rgb(107, 176, 219);
+	
+}
+
+QLineEdit:focus{
+	border-bottom: 2px solid rgb(107, 176, 219);
+}</string>
           </property>
           <property name="maxLength">
            <number>32</number>
@@ -331,14 +392,30 @@ padding: 10px</string>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);
-padding: 10px</string>
+           <string notr="true">QLineEdit{
+	border-bottom: 2px solid rgb(255, 255, 255);
+	border-radius: 0px;
+	padding: 5px;
+	padding-bottom: -10px;
+	background-color: rgb(162, 210, 255);
+	color: rgb(0, 0, 0);
+}
+
+QLineEdit:hover{
+	border-bottom: 2px solid rgb(107, 176, 219);
+	
+}
+
+QLineEdit:focus{
+	border-bottom: 2px solid rgb(107, 176, 219);
+}</string>
           </property>
           <property name="maxLength">
            <number>16</number>
@@ -353,22 +430,38 @@ padding: 10px</string>
          <widget class="QLineEdit" name="lineEdit_4">
           <property name="geometry">
            <rect>
-            <x>110</x>
+            <x>109</x>
             <y>300</y>
-            <width>270</width>
+            <width>271</width>
             <height>40</height>
            </rect>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial</family>
             <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);
-padding: 10px</string>
+           <string notr="true">QLineEdit{
+	border-bottom: 2px solid rgb(255, 255, 255);
+	border-radius: 0px;
+	padding: 5px;
+	padding-bottom: -10px;
+	background-color: rgb(162, 210, 255);
+	color: rgb(0, 0, 0);
+}
+
+QLineEdit:hover{
+	border-bottom: 2px solid rgb(107, 176, 219);
+	
+}
+
+QLineEdit:focus{
+	border-bottom: 2px solid rgb(107, 176, 219);
+}</string>
           </property>
           <property name="maxLength">
            <number>16</number>
@@ -425,7 +518,7 @@ padding: 10px</string>
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(107, 176, 219);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -438,12 +531,18 @@ padding: 10px</string>
         <widget class="QLabel" name="label_2">
          <property name="font">
           <font>
-           <family>Segoe UI</family>
-           <pointsize>10</pointsize>
+           <family>Arial</family>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(107, 176, 219);
+color: rgb(45, 74, 92);</string>
+         </property>
          <property name="text">
-          <string>Desenvolvido por RV::Technology ©</string>
+          <string>Desenvolvido por Rafael Dias ©</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

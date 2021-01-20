@@ -1,54 +1,322 @@
-from PyQt5 import  uic,QtWidgets, QtGui, QtCore #Importando PYQT5, essencial para uso da interface grafica
-from PyQt5.QtWidgets import QApplication, QMessageBox,QLineEdit#Biblioteca para criação de "Janelas apresentando erro - QmessageBox
-import sqlite3 #Importando banco de dados SQLITE3
-from passlib.hash import pbkdf2_sha256 #Biclioteca para criptografia das senhas de LOGIN
-from datetime import date, datetime #Essencial para a manipulação das datas
-import smtplib #Biblioteca para envio de e-mail
-from email.mime.text import MIMEText #Biblioteca referente ao tipo de mensagem enviada via e-mail BASICO
-
+from PyQt5 import  uic,QtWidgets, QtGui, QtCore
+from PyQt5.QtWidgets import QApplication, QMessageBox,QLineEdit
+import sqlite3 
+from sqlite3 import Error
+from passlib.hash import pbkdf2_sha256
+from datetime import date, datetime
+import smtplib
+from email.mime.text import MIMEText
 #####################################################################################################
 
-#Função para colocar os dados na tabela criada no Qt Designer
-def tabela():
-    banco_3 = sqlite3.connect ('_bd/cadastro.bd') #Conexão com o banco
-    cursor = banco_3.cursor() #Cursor necessario para a "Navegar" no banco
-    query = "SELECT CM.nome, CM.placa, CM.vencida_cnh FROM cadastro_motorista CM ORDER BY dias_vencida" #Query para a seleção dos dados que irá na tabela
-    result = cursor.execute(query) #Query sendo executada e o resultado sendo atribuida a uma variavel - "execute" primordial para isso
-    segunda_tela.tableWidget.setRowCount (0) #Determinar por onde irá começar o preenchimento da planilha
-    for row_number, row_data in enumerate (result): #Percorre o resultado obtido no banco
-        segunda_tela.tableWidget.insertRow(row_number)
-        for colum_number, data in enumerate(row_data):
-            segunda_tela.tableWidget.setItem(row_number , colum_number, QtWidgets.QTableWidgetItem(str(data))) #Adiciona na tabela
-    
-    banco_3.commit() #Comitando a Query
-    banco_3.close() #Essencial fechar o banco
-    
+def cadastrarUsuario():
+    email = cadastroUsuario.lineEdit.text().lower()
+    login = cadastroUsuario.lineEdit_2.text().lower()
+    senha = cadastroUsuario.lineEdit_3.text()
+    c_senha = cadastroUsuario.lineEdit_4.text()
+    hashed = pbkdf2_sha256.hash(senha)
 
-def email():#Função de envio de e-mail - O sistema ja inicia buscando no banco os dias que faltam para vencer
-    banco = sqlite3.connect ('_bd/cadastro.bd')
+    if (email.count ("@")):
+        if (senha == c_senha):
+            try:
+                banco = sqlite3.connect ('_db/cadastro.db')
+                cursor = banco.cursor()
+                cursor.execute("CREATE TABLE IF NOT EXISTS cadastro (Email text, Login Text, Senha text)")
+                cursor.execute("INSERT INTO cadastro VALUES ('"+email+"', '"+login+"', '"+hashed+"')")
+                banco.commit()
+                banco.close()
+
+                cadastroUsuario.label_7.setText("Cadastro Realizado")
+                cadastroUsuario.lineEdit.setText("")
+                cadastroUsuario.lineEdit_2.setText("")
+                cadastroUsuario.lineEdit_3.setText("")
+                cadastroUsuario.lineEdit_4.setText("")
+
+            except sqlite3.Error as erro:
+                cadastroUsuario.label_7.setText("Erro ao inserir os dados: ",erro)
+        else:
+            cadastroUsuario.label_7.setText("As senhas digitadas estão diferentes")
+    else:
+        cadastroUsuario.label_7.setText("Digitar um e-mail valido.")
+
+def login():
+    nome_usuario = telaLogin.lineEdit.text() 
+    senha_usuario = telaLogin.lineEdit_2.text()
+    banco = sqlite3.connect ('_db/cadastro.db')
     cursor = banco.cursor()
-    query = "SELECT dias_vencida FROM cadastro_motorista"
-    result = cursor.execute(query)
-    banco.commit()
-    result_2 = [line[0] for line in result] #Pega o resultado do banco que vem uma lista e dentro TUPLA, e transformar em lista, mais facilidade de manipulação
+
+    try:
+        cursor.execute(f"SELECT senha FROM cadastro WHERE login = '{nome_usuario}'")
+        senha_db = cursor.fetchall()
+        hashed_verificacao = pbkdf2_sha256.verify(senha_usuario, senha_db[0][0])
+        banco.close()
+    except:
+        telaLogin.label_4.setText("Erro ao validar o login!")
+    try:
+        if hashed_verificacao == True:
+            telaLogin.close() 
+            telaPrincipal.show()
+            telaPrincipal.label_4.setText(nome_usuario)
+            envioEmail()
+        else:
+            telaLogin.label_4.setText("Sua senha está incorreta!")
+            telaLogin.frame_5.show()     
+    except:
+        telaLogin.label_4.setText("Usuario não existe!")
+        telaLogin.frame_5.show()
+
+def tabela():
+    banco = sqlite3.connect ('_db/cadastro.db')
+    cursor = banco.cursor() 
+    query = "SELECT cadastro_motorista.nome, cadastro_motorista.placa, cadastro_motorista.vencida_cnh, cadastro_motorista.seguro_vencido FROM cadastro_motorista  ORDER BY cadastro_motorista.seguro_dias_vencido" 
+    result = cursor.execute(query) 
+    telaPrincipal.tableWidget.setRowCount (0) 
+
+    for row_number, row_data in enumerate (result): 
+        telaPrincipal.tableWidget.insertRow(row_number)
+        for colum_number, data in enumerate(row_data):
+            telaPrincipal.tableWidget.setItem(row_number , colum_number, QtWidgets.QTableWidgetItem(str(data))) 
     
-    if 100 in result_2: #Condição para verificar se dentro da lista result_2, temos algum resultado igual a 8, se tiver, se inicia o envio do email, comunicando que tem motorista proximo de vencer a habilitação.
-        '''#conexão com os servidores do google
+    banco.commit()
+    banco.close()
+
+def cadastrarMotorista():
+    try:
+        nomeMotorista = cadastroMotorista.lineEdit.text().lower()
+        cpfMotorista = cadastroMotorista.lineEdit_2.text()
+        placaMotorista = cadastroMotorista.lineEdit_3.text().lower()
+        cnhMotorista = cadastroMotorista.lineEdit_4.text()
+        vencimentoCnh = cadastroMotorista.lineEdit_5.text()
+        categoriaCnh = cadastroMotorista.lineEdit_7.text().lower()
+        vencimentoSeguro = cadastroMotorista.lineEdit_6.text().lower()
+        ############################ - CONVERTER TEXTO PARA DATA - ##################################
+        dataHoje = datetime.today().strftime("%d/%m/%Y")
+        converterData = vencimentoCnh[:2] + "/" + vencimentoCnh[2:4] + "/" + vencimentoCnh[4:8]
+        converterSeguro = vencimentoSeguro[:2] + "/" + vencimentoSeguro[2:4] + "/" + vencimentoSeguro[4:8]
+        dataConvertida = datetime.strptime(converterData, "%d/%m/%Y")
+        seguroConvertido = datetime.strptime(converterSeguro, "%d/%m/%Y")
+        hojeConvertido = datetime.strptime(dataHoje, "%d/%m/%Y")
+        dataFormatada = ((dataConvertida - hojeConvertido).days)
+        seguroFormatado = ((seguroConvertido - hojeConvertido).days)
+        #############################################################################################
+        banco = sqlite3.connect ('_db/cadastro.db')
+        cursor = banco.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_motorista (nome text, cpf INTEGER NOT NULL PRIMARY KEY, placa text, cnh INTEGER, vencimento_cnh text, categoria_cnh text(2), vencimento_seguro text, vencida_cnh text, dias_vencida integer, seguro_vencido text, seguro_dias_vencido integer)")
+        cursor.execute (f"INSERT INTO cadastro_motorista VALUES ('{nomeMotorista}', '{cpfMotorista}', '{placaMotorista}', '{cnhMotorista}', '{converterData}', '{categoriaCnh}', '{converterSeguro}', '{dataFormatada} DIAS PARA VENCER - {converterData}', '{dataFormatada}', '{seguroFormatado} DIAS PARA VENCER - {converterSeguro}', '{seguroFormatado}')")
+
+        banco.commit()
+        banco.close()
+    
+        cadastroMotorista.lineEdit.setText("")
+        cadastroMotorista.lineEdit_2.setText("")
+        cadastroMotorista.lineEdit_3.setText("")
+        cadastroMotorista.lineEdit_4.setText("")
+        cadastroMotorista.lineEdit_5.setText("")
+        cadastroMotorista.lineEdit_7.setText("")
+        cadastroMotorista.lineEdit_6.setText("")
+
+    except sqlite3.IntegrityError:
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setWindowTitle('Notificação')
+        msg.setText('CPF já cadastrado')
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+        
+    except:
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setWindowTitle('Notificação')
+        msg.setText('Cadastro Não realizado - Preencher os dados corretamente')
+        #msg.setInformativeText("Preencher os dados Corretamente.")
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+
+def listaComboBox():
+    atualizacaoMotorista.show()
+    banco = sqlite3.connect ('_db/cadastro.db')
+    cursor = banco.cursor()
+    cursor.execute ("SELECT nome FROM cadastro_motorista ORDER BY nome")
+    data = cursor.fetchall()
+    atualizacaoMotorista.comboBox.clear()
+
+    for category in data:
+        atualizacaoMotorista.comboBox.addItem(category[0])
+
+    banco.commit()
+    banco.close()
+
+def listarDadosMotorista():
+    try:
+        banco = sqlite3.connect ('_db/cadastro.db')
+        cursor = banco.cursor()
+        nome = atualizacaoMotorista.comboBox.currentText()
+        cursor.execute(f"select nome, cpf, placa, cnh, vencimento_cnh, categoria_cnh, vencimento_seguro from cadastro_motorista WHERE nome = '{nome}'")
+        resultado = cursor.fetchall()
+        banco.commit()
+        atualizacaoMotorista.lineEdit.setText(str(resultado[0][0]))
+        atualizacaoMotorista.lineEdit_2.setText(str(resultado[0][1]))
+        atualizacaoMotorista.lineEdit_3.setText(str(resultado[0][2]))
+        atualizacaoMotorista.lineEdit_4.setText(str(resultado[0][3]))
+        atualizacaoMotorista.lineEdit_5.setText(str(resultado[0][4]))
+        atualizacaoMotorista.lineEdit_7.setText(str(resultado[0][5]))
+        atualizacaoMotorista.lineEdit_6.setText(str(resultado[0][6]))
+
+        banco.commit()
+        banco.close()
+
+    except IndexError:
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle('Aviso')
+        msg.setText('Motorista não consta no banco de dados!')
+        msg.setInformativeText('Motorista excluido recentemente.')
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+
+def atualizarCadastroMotorista():
+    try:
+        dataHoje = datetime.today().strftime("%d/%m/%Y")
+        banco = sqlite3.connect ('_db/cadastro.db')
+        cursor = banco.cursor()
+        
+        nomeMotorista = atualizacaoMotorista.lineEdit.text()
+        cpfMotorista = atualizacaoMotorista.lineEdit_2.text()
+        placaMotorista = atualizacaoMotorista.lineEdit_3.text()
+        cnhMotorista = atualizacaoMotorista.lineEdit_4.text()
+        vencimentoCnh = atualizacaoMotorista.lineEdit_5.text()
+        categoriaCnh = atualizacaoMotorista.lineEdit_7.text()
+        vencimentoSeguro = atualizacaoMotorista.lineEdit_6.text()
+        ############################ - CONVERTER TEXTO PARA DATA - ################################# 
+        converterData = vencimentoCnh[:2] + "/" + vencimentoCnh[2:4] + "/" + vencimentoCnh[4:8]
+        converterSeguro = vencimentoSeguro[:2] + "/" + vencimentoSeguro[2:4] + "/" + vencimentoSeguro[4:8]
+        dataConvertida = datetime.strptime(converterData, "%d/%m/%Y")
+        seguroConvertido = datetime.strptime(converterSeguro, "%d/%m/%Y")
+        hojeConvertido = datetime.strptime(dataHoje, "%d/%m/%Y")
+        dataFormatada = ((dataConvertida - hojeConvertido).days) 
+        seguroFormatado = ((seguroConvertido - hojeConvertido).days)
+        #############################################################################################
+        cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{converterData}', categoria_cnh='{categoriaCnh}', vencimento_seguro='{converterSeguro}', vencida_cnh='{dataFormatada} DIAS PARA VENCER - {converterData}', dias_vencida='{dataFormatada}', seguro_vencido='{seguroFormatado} DIAS PARA VENCER - {converterSeguro}', seguro_dias_vencido='{seguroFormatado}'  where cpf= '{cpfMotorista}'")
+
+        banco.commit()
+        banco.close()
+
+    except:
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setWindowTitle('Erro')
+        msg.setText('Atualização não realizada')
+        msg.setInformativeText('Preencher os dados com o formato correto!')
+        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        msg.exec_()
+
+    atualizacaoMotorista.lineEdit.setText("")
+    atualizacaoMotorista.lineEdit_2.setText("")
+    atualizacaoMotorista.lineEdit_3.setText("")
+    atualizacaoMotorista.lineEdit_4.setText("")
+    atualizacaoMotorista.lineEdit_5.setText("")
+    atualizacaoMotorista.lineEdit_7.setText("")
+    atualizacaoMotorista.lineEdit_6.setText("")
+
+def excluirMotorista():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Information)
+    msg.setWindowTitle('Excluir Definitivamente')
+    msg.setText('Deseja REALMENTE excluir os dados desse Motorista?')
+    msg.setInformativeText('Após confirmar, não será possivel recuperar os dados!')
+    msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    qmessageBoxBotao = msg.exec_()
+
+    if qmessageBoxBotao == QMessageBox.Ok:
+        banco = sqlite3.connect ('_db/cadastro.db')
+        cursor = banco.cursor()
+        nome = atualizacaoMotorista.comboBox.currentText()
+        cursor.execute(f"DELETE FROM cadastro_motorista WHERE nome = '{nome}'")
+        banco.commit()
+        banco.close()
+        
+    elif qmessageBoxBotao == QMessageBox.Cancel:
+        pass
+
+def envioEmail():
+    email_usuario = telaPrincipal.label_4.text()
+    banco = sqlite3.connect ('_db/cadastro.db')
+    cursor = banco.cursor()
+    query_cnh_vencida = "SELECT dias_vencida FROM cadastro_motorista"
+    query_seguro_vencido = "SELECT seguro_dias_vencido FROM cadastro_motorista"
+    query_email = (f"SELECT Email FROM cadastro WHERE login = '{email_usuario}'")
+
+    result = cursor.execute(query_cnh_vencida)
+    cnh_vencida = cursor.fetchall()
+
+    result2 = cursor.execute(query_seguro_vencido)
+    seguro_vencido = cursor.fetchall()
+
+    result3 = cursor.execute(query_email)
+    email_cadastro = cursor.fetchall()
+
+    banco.commit()
+
+    lista_cnh_vencida = [line[0] for line in cnh_vencida]
+    lista_seguro_vencido = [line2[0] for line2 in seguro_vencido]
+    
+    
+    if 10 in lista_cnh_vencida or 20 in lista_cnh_vencida or 30 in lista_cnh_vencida:
+        #conexão com os servidores do google
         smtp_ssl_host = 'smtp.gmail.com'
         smtp_ssl_port = 465
 
         #username ou email para logar no servidor
-        username = 'rafaelxdiass@gmail.com'
+        username = 'entregas.portaporta@gmail.com'
         password = ''
 
-        from_addr = 'rafaelxdiass@gmail.com'
-        to_addrs = ['rafael.dias@calvo.com.br']
+        from_addr = 'entregas.portaporta@gmail.com'
+        to_addrs = [email_cadastro[0][0]]
 
         #a biblioteca email possuí vários templates
         #para diferentes formatos de mensagem
         #neste caso usaremos MIMEText para enviar
         #somente texto
-        message = MIMEText('Verificar o vencimneto de alguns motoristas. Estão proximas de vencer. Não responder esse e-mail.')
+        message = MIMEText('Consta CNH proxima de sua data de validade. Por gentileza, verificar qual motorista e realizar a atualização no sistema. Não Responder esse e-mail!!!')
+        message['subject'] = 'VERIFICAR'
+        message['from'] = from_addr
+        message['to'] = ', '.join(to_addrs)
+
+        #conectaremos de forma segura usando SSL
+        server = smtplib.SMTP_SSL(smtp_ssl_host, smtp_ssl_port)
+        # para interagir com um servidor externo precisaremos
+        # fazer login nele
+        server.login(username, password)
+        server.sendmail(from_addr, to_addrs, message.as_string())
+        server.quit()
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle('Aviso')
+        msg.setText('Email Enviado com Sucesso')
+        msg.setInformativeText(f'Verificar a caixa de entrada/Spam - {email_cadastro[0][0]}')
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+        
+    else:
+        pass
+
+    if 10 in lista_seguro_vencido or 20 in lista_seguro_vencido or 30 in lista_seguro_vencido: 
+        #conexão com os servidores do google
+        smtp_ssl_host = 'smtp.gmail.com'
+        smtp_ssl_port = 465
+
+        #username ou email para logar no servidor
+        username = 'entregas.portaporta@gmail.com'
+        password = ''
+
+        from_addr = 'entregas.portaporta@gmail.com'
+        to_addrs = [email_cadastro[0][0]]
+
+        #a biblioteca email possuí vários templates
+        #para diferentes formatos de mensagem
+        #neste caso usaremos MIMEText para enviar
+        #somente texto
+        message = MIMEText('Verificar o vencimento de alguns motoristas. Estão proximas de vencer. Não responder esse e-mail.')
         message['subject'] = 'Renovar'
         message['from'] = from_addr
         message['to'] = ', '.join(to_addrs)
@@ -59,185 +327,43 @@ def email():#Função de envio de e-mail - O sistema ja inicia buscando no banco
         # fazer login nele
         server.login(username, password)
         server.sendmail(from_addr, to_addrs, message.as_string())
-        server.quit()'''
+        server.quit()
 
-        print("Certo")
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle('Aviso')
+        msg.setText('Email Enviado com Sucesso')
+        msg.setInformativeText(f'Verificar a caixa de entrada/Spam - {email_cadastro[0][0]}')
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
 
     else:
         pass
-    
-    banco.close() #Essencial fechar o banco
+    banco.close()
 
-#Função de validação de LOGIN e SENHA - Senha criptografada para maior segurança
-def teste ():
-
-    #primeira_tela.label.setText("")
-    nome_usuario = primeira_tela.lineEdit.text() #Campo onde digita o usuario e guarda em uma variavel.
-
-    senha_usuario = primeira_tela.lineEdit_2.text() #Campo onde digita a senha e guarda em uma variavel.
-
-    banco = sqlite3.connect ('_bd/cadastro.bd')
-
-    cursor = banco.cursor()
-
-    #Validação de LOGIN e SENHA
-    try:
-        cursor.execute(f"SELECT senha FROM cadastro WHERE login = '{nome_usuario}'") #O nome do usuario é digitado e a consulta  realizada no banco de dados.
-
-        senha_bd = cursor.fetchall() #Com base no usuario digitado, essa variavel captura a senha que está salva no banco de dados vinculada a esse usuario.
-
-        certo = pbkdf2_sha256.verify(senha_usuario, senha_bd[0][0]) #Verifica a senha criptogravada com a senha que o usuario digitou.
-
-        banco.close()
-    except:
-        primeira_tela.label_4.setText("Erro ao validar o login!")
-    try:
-        if certo == True: #Condição que verifica a senha criptogravada e valida o acesso para o sistema.
-
-            primeira_tela.close() #Tela de login fecha
-
-            segunda_tela.show() #Inicia o sistema
-
-        #Condição que mostra que a senha está incorreta.
-        else:
-            primeira_tela.label_4.setText("Sua senha está incorreta!")
-            primeira_tela.frame_5.show()
-
-    #Se o nome do usuario não existe, essa excessão e aplicada.       
-    except:
-        primeira_tela.label_4.setText("Usuario não existe!")
-        primeira_tela.frame_5.show()
-    
-
-#Função para cadastro dos motoristas
-def cadastrar_motorista ():
-    try:
-        mot = terceira_tela.lineEdit.text().lower() #Variavel que salva o nome do motorista
-        
-        cpf = terceira_tela.lineEdit_2.text() #Variavel que salva o CPF do motorista
-        
-        placa = terceira_tela.lineEdit_3.text().lower() ##Variavel que salva a placa do motorista
-
-        cnh = terceira_tela.lineEdit_4.text() #Variavel que salva a CNH do motorista
-
-        vencimentocnh = terceira_tela.lineEdit_5.text() #Variavel que salva o vencimento da CNH
-
-        categoria = terceira_tela.lineEdit_7.text().lower() #Variavel que salva a categoria da CNH
-
-        seguro = terceira_tela.lineEdit_6.text().lower() #Variavel que salva o vencimento do seguro
-
-        hoje = datetime.today().strftime("%d/%m/%Y") #Data atual
-
-        #Converte a data digitada na variavel "vencimentocnh" para a formatação padrão usada pelo sistema "12/12/2012"
-        converter_data = vencimentocnh[:2] + "/" + vencimentocnh[2:4] + "/" + vencimentocnh[4:8]
-
-        #Converte a variavel "converte_data" para o formato DATATIME e assim podemos usar para verificar a diferença de dias
-        salve = datetime.strptime(converter_data, "%d/%m/%Y")
-
-        #Converte a variavel "converte_data" para o formato DATATIME e assim podemos usar para verificar a diferença de dias
-        salvee = datetime.strptime(hoje, "%d/%m/%Y") #Formata no padrão para uso do sistema
-
-        data_formatada = ((salve - salvee).days) #Diferença das datas, exibida em DIAS
-
-        ### Realizar condição para o CPF
-
-        banco_2 = sqlite3.connect ('_bd/cadastro.bd') #Conexão com o banco de dados
-
-        cursor_2 = banco_2.cursor()
-
-        #Criação da tabela e seus valores
-        cursor_2.execute("CREATE TABLE IF NOT EXISTS cadastro_motorista (nome text, cpf INTEGER NOT NULL PRIMARY KEY, placa text, cnh INTEGER, vencimento_cnh text, categoria_cnh text(1), vencimento_seguro text, vencida_cnh text, dias_vencida integer)")
-
-        #inserindo os valores digitados nos input pelo usuario
-        cursor_2.execute (f"INSERT INTO cadastro_motorista VALUES ('{mot}', '{cpf}', '{placa}', '{cnh}', '{vencimentocnh}', '{categoria}', '{seguro}', 'VENCE EM: {data_formatada} DIAS - {converter_data}', '{data_formatada}')")
-
-        banco_2.commit()
-
-        banco_2.close()
-
-        
-        '''terceira_tela.label_9.setText("Cadastro Realizado com Sucesso")
-        terceira_tela.frame.show()'''
-        
-        print("Cadastro realizado")
-
-        #incluindo .setText("") ao clicar em cadastrar, os input voltam a ficar vazios
-        mot = terceira_tela.lineEdit.setText("")
-        cpf = terceira_tela.lineEdit_2.setText("")
-        placa = terceira_tela.lineEdit_3.setText("")
-        cnh = terceira_tela.lineEdit_4.setText("")
-        vencimentocnh = terceira_tela.lineEdit_5.setText("")
-        categoria = terceira_tela.lineEdit_7.setText("")
-        seguro = terceira_tela.lineEdit_6.setText("")
-    except:
-        erro()
-
-def erro ():
-
-    msg = QMessageBox()
-    msg.setIcon(QMessageBox.Critical)
-    msg.setWindowTitle('Notificação')
-    msg.setText('Cadastro Não realizado - Preencher os dados corretamente')
-    #msg.setInformativeText("Preencher os dados Corretamente.")
-    msg.setStandardButtons(QMessageBox.Ok)
-    msg.exec_()
-    
-  
-def cadastrar ():
-    nome = cadastro_tela.lineEdit.text().lower()
-    login = cadastro_tela.lineEdit_2.text().lower()
-    senha = cadastro_tela.lineEdit_3.text()
-    c_senha = cadastro_tela.lineEdit_4.text()
-    hashed = pbkdf2_sha256.hash(senha)
-    if (nome.count ("@")):
-
-        if (senha == c_senha):
-            try:
-                banco = sqlite3.connect ('_bd/cadastro.bd')
-                cursor = banco.cursor()
-                cursor.execute("CREATE TABLE IF NOT EXISTS cadastro (nome text, login text, senha text)")
-                cursor.execute("INSERT INTO cadastro VALUES ('"+nome+"', '"+login+"', '"+hashed+"')")
-                banco.commit()
-                banco.close()
-                cadastro_tela.label_7.setText("Cadastro Realizado")
-                cadastro_tela.lineEdit.setText("")
-                cadastro_tela.lineEdit_2.setText("")
-                cadastro_tela.lineEdit_3.setText("")
-                cadastro_tela.lineEdit_4.setText("")
-
-            except sqlite3.Error as erro:
-                cadastro_tela.label_7.setText("Erro ao inserir os dados: ",erro)
-        else:
-            cadastro_tela.label_7.setText("As senhas digitadas estão diferentes")
-        
-    else:
-        cadastro_tela.label_7.setText("Digitar um e-mail valido.")
-
-#Função para chamar a Terceira Tela.
-def terceiro ():
-    terceira_tela.show()
-
-#Função para chamar a Segunda Tela.
-def cadastro ():
-    cadastro_tela.show()   
-    
 app=QtWidgets.QApplication([])
 
-primeira_tela=uic.loadUi("_ui/tela_login.ui")
-segunda_tela=uic.loadUi("_ui/segunda_tela.ui")
-terceira_tela=uic.loadUi("_ui/terceira_tela.ui")
-cadastro_tela=uic.loadUi("_ui/cadastro.ui")
+telaLogin=uic.loadUi("_ui/telaLogin.ui")
+telaPrincipal=uic.loadUi("_ui/telaPrincipal.ui")
+cadastroMotorista=uic.loadUi("_ui/cadastroMotorista.ui")
+cadastroUsuario=uic.loadUi("_ui/cadastroUsuario.ui")
+atualizacaoMotorista=uic.loadUi("_ui/atualizacaoMotorista.ui")
 
+telaLogin.pushButton_2.clicked.connect(login)
+telaPrincipal.pushButton.clicked.connect(cadastroMotorista.show)
+telaPrincipal.pushButton_2.clicked.connect(tabela)
+telaLogin.pushButton.clicked.connect(cadastroUsuario.show)
+cadastroUsuario.pushButton.clicked.connect(cadastrarUsuario)
+cadastroMotorista.pushButton.clicked.connect(cadastrarMotorista)
+telaPrincipal.pushButton_3.clicked.connect(listaComboBox)
+atualizacaoMotorista.pushButton_3.clicked.connect(listarDadosMotorista)
+atualizacaoMotorista.pushButton.clicked.connect(atualizarCadastroMotorista)
+atualizacaoMotorista.pushButton_2.clicked.connect(excluirMotorista)
 
-primeira_tela.pushButton_2.clicked.connect(teste)
-segunda_tela.pushButton.clicked.connect(terceiro)
-segunda_tela.pushButton_2.clicked.connect(tabela)
-primeira_tela.pushButton.clicked.connect(cadastro)
-cadastro_tela.pushButton.clicked.connect(cadastrar)
-terceira_tela.pushButton.clicked.connect(cadastrar_motorista)
 tabela()
-email()
-primeira_tela.pushButton_3.clicked.connect(lambda:primeira_tela.frame_5.hide())
-primeira_tela.frame_5.hide()
-primeira_tela.show()
+
+
+telaLogin.pushButton_3.clicked.connect(lambda:telaLogin.frame_5.hide())
+telaLogin.frame_5.hide()
+telaLogin.show()
 app.exec()
