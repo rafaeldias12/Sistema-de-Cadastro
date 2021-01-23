@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Cadastro</string>
+   <string>Cadastro de Novo Usuário</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -476,23 +476,28 @@ QLineEdit:focus{
          <widget class="QLabel" name="label_7">
           <property name="geometry">
            <rect>
-            <x>56</x>
+            <x>6</x>
             <y>359</y>
-            <width>291</width>
+            <width>391</width>
             <height>41</height>
            </rect>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
+            <family>Arial Black</family>
             <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);</string>
+           <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </widget>
@@ -565,8 +570,6 @@ color: rgb(45, 74, 92);</string>
    </property>
   </widget>
  </widget>
- <resources>
-  <include location="file_icon.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

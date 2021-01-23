@@ -20,7 +20,7 @@ def cadastrarUsuario():
             try:
                 banco = sqlite3.connect ('_db/cadastro.db')
                 cursor = banco.cursor()
-                cursor.execute("CREATE TABLE IF NOT EXISTS cadastro (Email text, Login Text, Senha text)")
+                cursor.execute("CREATE TABLE IF NOT EXISTS cadastro (Email text, Login Text UNIQUE, Senha text)")
                 cursor.execute("INSERT INTO cadastro VALUES ('"+email+"', '"+login+"', '"+hashed+"')")
                 banco.commit()
                 banco.close()
@@ -31,8 +31,8 @@ def cadastrarUsuario():
                 cadastroUsuario.lineEdit_3.setText("")
                 cadastroUsuario.lineEdit_4.setText("")
 
-            except sqlite3.Error as erro:
-                cadastroUsuario.label_7.setText("Erro ao inserir os dados: ",erro)
+            except sqlite3.IntegrityError:
+                cadastroUsuario.label_7.setText("Login já cadastrado, por favor, tente outro.")
         else:
             cadastroUsuario.label_7.setText("As senhas digitadas estão diferentes")
     else:
@@ -55,7 +55,8 @@ def login():
         if hashed_verificacao == True:
             telaLogin.close() 
             telaPrincipal.show()
-            telaPrincipal.label_4.setText(nome_usuario)
+            tabela()
+            telaPrincipal.label_3.setText(f"Usuario Logado: {nome_usuario}")
             envioEmail()
         else:
             telaLogin.label_4.setText("Sua senha está incorreta!")
@@ -186,17 +187,29 @@ def atualizarCadastroMotorista():
         vencimentoCnh = atualizacaoMotorista.lineEdit_5.text()
         categoriaCnh = atualizacaoMotorista.lineEdit_7.text()
         vencimentoSeguro = atualizacaoMotorista.lineEdit_6.text()
-        ############################ - CONVERTER TEXTO PARA DATA - ################################# 
-        converterData = vencimentoCnh[:2] + "/" + vencimentoCnh[2:4] + "/" + vencimentoCnh[4:8]
-        converterSeguro = vencimentoSeguro[:2] + "/" + vencimentoSeguro[2:4] + "/" + vencimentoSeguro[4:8]
-        dataConvertida = datetime.strptime(converterData, "%d/%m/%Y")
-        seguroConvertido = datetime.strptime(converterSeguro, "%d/%m/%Y")
-        hojeConvertido = datetime.strptime(dataHoje, "%d/%m/%Y")
-        dataFormatada = ((dataConvertida - hojeConvertido).days) 
-        seguroFormatado = ((seguroConvertido - hojeConvertido).days)
-        #############################################################################################
-        cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{converterData}', categoria_cnh='{categoriaCnh}', vencimento_seguro='{converterSeguro}', vencida_cnh='{dataFormatada} DIAS PARA VENCER - {converterData}', dias_vencida='{dataFormatada}', seguro_vencido='{seguroFormatado} DIAS PARA VENCER - {converterSeguro}', seguro_dias_vencido='{seguroFormatado}'  where cpf= '{cpfMotorista}'")
 
+        if (vencimentoCnh.count ("/")) and (vencimentoSeguro.count ("/")):
+            dataConvertida = datetime.strptime(vencimentoCnh, "%d/%m/%Y")
+            seguroConvertido = datetime.strptime(vencimentoSeguro, "%d/%m/%Y")
+            hojeConvertido = datetime.strptime(dataHoje, "%d/%m/%Y")
+            dataFormatada = ((dataConvertida - hojeConvertido).days) 
+            seguroFormatado = ((seguroConvertido - hojeConvertido).days)
+            
+            cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{vencimentoCnh}', categoria_cnh='{categoriaCnh}', vencimento_seguro='{vencimentoSeguro}', vencida_cnh='{dataFormatada} DIAS PARA VENCER - {vencimentoCnh}', dias_vencida='{dataFormatada}', seguro_vencido='{seguroFormatado} DIAS PARA VENCER - {vencimentoSeguro}', seguro_dias_vencido='{seguroFormatado}'  where cpf= '{cpfMotorista}'")
+            
+        else:
+            ############################ - CONVERTER TEXTO PARA DATA - ################################# 
+            converterData = vencimentoCnh[:2] + "/" + vencimentoCnh[2:4] + "/" + vencimentoCnh[4:8]
+            converterSeguro = vencimentoSeguro[:2] + "/" + vencimentoSeguro[2:4] + "/" + vencimentoSeguro[4:8]
+            dataConvertida = datetime.strptime(converterData, "%d/%m/%Y")
+            seguroConvertido = datetime.strptime(converterSeguro, "%d/%m/%Y")
+            hojeConvertido = datetime.strptime(dataHoje, "%d/%m/%Y")
+            dataFormatada = ((dataConvertida - hojeConvertido).days) 
+            seguroFormatado = ((seguroConvertido - hojeConvertido).days)
+            #############################################################################################
+
+            cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{converterData}', categoria_cnh='{categoriaCnh}', vencimento_seguro='{converterSeguro}', vencida_cnh='{dataFormatada} DIAS PARA VENCER - {converterData}', dias_vencida='{dataFormatada}', seguro_vencido='{seguroFormatado} DIAS PARA VENCER - {converterSeguro}', seguro_dias_vencido='{seguroFormatado}'  where cpf= '{cpfMotorista}'")
+            
         banco.commit()
         banco.close()
 
@@ -238,12 +251,12 @@ def excluirMotorista():
         pass
 
 def envioEmail():
-    email_usuario = telaPrincipal.label_4.text()
+    email_usuario = telaPrincipal.label_3.text()
     banco = sqlite3.connect ('_db/cadastro.db')
     cursor = banco.cursor()
     query_cnh_vencida = "SELECT dias_vencida FROM cadastro_motorista"
     query_seguro_vencido = "SELECT seguro_dias_vencido FROM cadastro_motorista"
-    query_email = (f"SELECT Email FROM cadastro WHERE login = '{email_usuario}'")
+    query_email = (f"SELECT Email FROM cadastro WHERE login = '{email_usuario[16:]}'")
 
     result = cursor.execute(query_cnh_vencida)
     cnh_vencida = cursor.fetchall()
@@ -261,12 +274,13 @@ def envioEmail():
     
     
     if 10 in lista_cnh_vencida or 20 in lista_cnh_vencida or 30 in lista_cnh_vencida:
+        print(email_cadastro)
         #conexão com os servidores do google
         smtp_ssl_host = 'smtp.gmail.com'
         smtp_ssl_port = 465
 
         #username ou email para logar no servidor
-        username = 'entregas.portaporta@gmail.com'
+        username = ''
         password = ''
 
         from_addr = 'entregas.portaporta@gmail.com'
@@ -276,8 +290,8 @@ def envioEmail():
         #para diferentes formatos de mensagem
         #neste caso usaremos MIMEText para enviar
         #somente texto
-        message = MIMEText('Consta CNH proxima de sua data de validade. Por gentileza, verificar qual motorista e realizar a atualização no sistema. Não Responder esse e-mail!!!')
-        message['subject'] = 'VERIFICAR'
+        message = MIMEText('Consta CNH proxima de sua data de validade. Por gentileza, verificar qual motorista e realizar a atualização no sistema. \n \n \n \n ### - E-mail automático, não responder esse e-mail! - ###')
+        message['subject'] = 'Verificar'
         message['from'] = from_addr
         message['to'] = ', '.join(to_addrs)
 
@@ -306,7 +320,7 @@ def envioEmail():
         smtp_ssl_port = 465
 
         #username ou email para logar no servidor
-        username = 'entregas.portaporta@gmail.com'
+        username = ''
         password = ''
 
         from_addr = 'entregas.portaporta@gmail.com'
@@ -316,8 +330,8 @@ def envioEmail():
         #para diferentes formatos de mensagem
         #neste caso usaremos MIMEText para enviar
         #somente texto
-        message = MIMEText('Verificar o vencimento de alguns motoristas. Estão proximas de vencer. Não responder esse e-mail.')
-        message['subject'] = 'Renovar'
+        message = MIMEText('Consta SEGURO proximo de sua data de validade. Por gentileza, verificar qual motorista e realizar a atualização no sistema. \n \n \n ### - E-mail automático, não responder esse e-mail! - ###')
+        message['subject'] = 'Verificar'
         message['from'] = from_addr
         message['to'] = ', '.join(to_addrs)
 
@@ -336,7 +350,7 @@ def envioEmail():
         msg.setInformativeText(f'Verificar a caixa de entrada/Spam - {email_cadastro[0][0]}')
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec_()
-
+        
     else:
         pass
     banco.close()
@@ -360,10 +374,11 @@ atualizacaoMotorista.pushButton_3.clicked.connect(listarDadosMotorista)
 atualizacaoMotorista.pushButton.clicked.connect(atualizarCadastroMotorista)
 atualizacaoMotorista.pushButton_2.clicked.connect(excluirMotorista)
 
-tabela()
-
 
 telaLogin.pushButton_3.clicked.connect(lambda:telaLogin.frame_5.hide())
+
+
 telaLogin.frame_5.hide()
+
 telaLogin.show()
 app.exec()

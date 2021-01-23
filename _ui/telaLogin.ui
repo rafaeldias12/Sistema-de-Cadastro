@@ -448,7 +448,7 @@ QPushButton:pressed{
            </property>
            <property name="font">
             <font>
-             <family>Arial</family>
+             <family>Arial Black</family>
              <pointsize>11</pointsize>
              <weight>75</weight>
              <bold>true</bold>
