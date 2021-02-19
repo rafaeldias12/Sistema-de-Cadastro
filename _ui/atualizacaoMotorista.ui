@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-<<<<<<< HEAD
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
- <class>AtualizaoDeMotorista</class>
- <widget class="QMainWindow" name="AtualizaoDeMotorista">
-=======
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
->>>>>>> Stashed changes
-=======
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
->>>>>>> Stashed changes
->>>>>>> 275e0d1a8cff8c02afced61bbe578fcbf1c15bf2
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -26,19 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-<<<<<<< HEAD
    <string>Atualização de Motorista</string>
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-   <string>Atualização de Motorista</string>
-=======
-   <string>MainWindow</string>
->>>>>>> Stashed changes
-=======
-   <string>MainWindow</string>
->>>>>>> Stashed changes
->>>>>>> 275e0d1a8cff8c02afced61bbe578fcbf1c15bf2
   </property>
   <property name="windowIcon">
    <iconset>
