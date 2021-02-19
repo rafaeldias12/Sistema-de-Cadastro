@@ -23,7 +23,19 @@
    </font>
   </property>
   <property name="windowTitle">
+<<<<<<< HEAD:_ui/cadastroUsuario.ui
    <string>Cadastro de Usuário</string>
+=======
+<<<<<<< Updated upstream:_ui/cadastroUsuario.ui
+<<<<<<< Updated upstream:_ui/cadastroUsuario.ui
+   <string>Cadastro de Novo Usuário</string>
+=======
+   <string>Cadastro</string>
+>>>>>>> Stashed changes:_ui/cadastro.ui
+=======
+   <string>Cadastro</string>
+>>>>>>> Stashed changes:_ui/cadastro.ui
+>>>>>>> 275e0d1a8cff8c02afced61bbe578fcbf1c15bf2:_ui/cadastro.ui
   </property>
   <property name="windowIcon">
    <iconset>

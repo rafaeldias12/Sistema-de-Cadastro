@@ -11,7 +11,19 @@
    </rect>
   </property>
   <property name="windowTitle">
+<<<<<<< HEAD:_ui/cadastroMotorista.ui
    <string>Cadastro de Motorista</string>
+=======
+   <string>Cadastro de Novo Motorista</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../_img/login.png</normaloff>../_img/login.png</iconset>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../_img/login.png</normaloff>../_img/login.png</iconset>
+>>>>>>> 275e0d1a8cff8c02afced61bbe578fcbf1c15bf2:_ui/terceira_tela.ui
   </property>
   <property name="windowIcon">
    <iconset>
