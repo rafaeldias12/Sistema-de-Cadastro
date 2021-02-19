@@ -24,7 +24,11 @@
   </property>
   <property name="windowTitle">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
    <string>Tela de Navegação</string>
+=======
+   <string>MainWindow</string>
+>>>>>>> Stashed changes
 =======
    <string>MainWindow</string>
 >>>>>>> Stashed changes
@@ -85,7 +89,11 @@ color: rgb(0, 0, 0);</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
           <item row="0" column="1">
+=======
+          <item row="0" column="2">
+>>>>>>> Stashed changes
 =======
           <item row="0" column="2">
 >>>>>>> Stashed changes
@@ -137,7 +145,11 @@ border-radius: 10px;</string>
             </property>
             <property name="columnCount">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
              <number>4</number>
+=======
+             <number>6</number>
+>>>>>>> Stashed changes
 =======
              <number>6</number>
 >>>>>>> Stashed changes
@@ -147,7 +159,11 @@ border-radius: 10px;</string>
             </attribute>
             <attribute name="horizontalHeaderDefaultSectionSize">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
              <number>170</number>
+=======
+             <number>150</number>
+>>>>>>> Stashed changes
 =======
              <number>150</number>
 >>>>>>> Stashed changes
@@ -165,6 +181,12 @@ border-radius: 10px;</string>
              <bool>false</bool>
             </attribute>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+            <attribute name="verticalHeaderMinimumSectionSize">
+             <number>20</number>
+            </attribute>
+>>>>>>> Stashed changes
 =======
             <attribute name="verticalHeaderMinimumSectionSize">
              <number>20</number>
@@ -177,9 +199,12 @@ border-radius: 10px;</string>
              <bool>true</bool>
             </attribute>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <attribute name="verticalHeaderMinimumSectionSize">
              <number>20</number>
             </attribute>
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
             <attribute name="verticalHeaderShowSortIndicator" stdset="0">
@@ -285,8 +310,11 @@ border-radius: 10px;</string>
             <column>
              <property name="text">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
               <string>Cnh Vencida / A Vencer</string>
 =======
+=======
+>>>>>>> Stashed changes
               <string>Dias a vencer Cnh</string>
              </property>
              <property name="font">
@@ -299,6 +327,9 @@ border-radius: 10px;</string>
             <column>
              <property name="text">
               <string>Vencimento Cnh</string>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
              </property>
              <property name="font">
@@ -311,8 +342,11 @@ border-radius: 10px;</string>
             <column>
              <property name="text">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
               <string>Seguro Vencido / A Vencer</string>
 =======
+=======
+>>>>>>> Stashed changes
               <string>Dias a vencer Seguro</string>
              </property>
              <property name="font">
@@ -325,6 +359,9 @@ border-radius: 10px;</string>
             <column>
              <property name="text">
               <string>Vencimento Seguro</string>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
              </property>
              <property name="font">
@@ -573,10 +610,13 @@ QPushButton:pressed{
            </widget>
           </item>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
          </layout>
          <zorder>frame_4</zorder>
          <zorder>tableWidget</zorder>
 =======
+=======
+>>>>>>> Stashed changes
           <item row="0" column="1">
            <widget class="QFrame" name="frame_9">
             <property name="enabled">
@@ -606,6 +646,9 @@ QPushButton:pressed{
          <zorder>frame_4</zorder>
          <zorder>tableWidget</zorder>
          <zorder>frame_9</zorder>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         </widget>
        </item>
@@ -671,6 +714,7 @@ QPushButton:pressed{
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600; color:#2d4a5c;&quot;&gt;Celular para Contato: (11) 95830-7247 - Rafael&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-weight:600; color:#2d4a5c;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
@@ -678,12 +722,17 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-weight:600; color:#2d4a5c;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-weight:600; color:#2d4a5c;&quot;&gt;Versão: 1.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
 =======
+=======
+>>>>>>> Stashed changes
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#2d4a5c;&quot;&gt;Celular para Contato: (11) 95830-7247 - Rafael&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#2d4a5c;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#2d4a5c;&quot;&gt;Email: rafael.dias@protonmail.com&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600; color:#2d4a5c;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#2d4a5c;&quot;&gt;Versão: 1.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             </property>
             <property name="textInteractionFlags">

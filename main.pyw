@@ -66,6 +66,7 @@ def login():
         telaLogin.frame_5.show()
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 def tabela():
     banco = sqlite3.connect ('_db/cadastro.db')
     cursor = banco.cursor() 
@@ -79,6 +80,8 @@ def tabela():
             telaPrincipal.tableWidget.setItem(row_number , colum_number, QtWidgets.QTableWidgetItem(str(data))) 
     
 =======
+=======
+>>>>>>> Stashed changes
 def diasAtualizado():
     banco = sqlite3.connect ('_db/cadastro.db')
     cursor = banco.cursor() 
@@ -112,12 +115,16 @@ def tabela():
         for colum_number, data in enumerate(row_data):
             telaPrincipal.tableWidget.setItem(row_number , colum_number, QtWidgets.QTableWidgetItem(str(data)))
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     banco.commit()
     banco.close()
 
 def cadastrarMotorista():
     try:
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         nomeMotorista = cadastroMotorista.lineEdit.text().lower()
         cpfMotorista = cadastroMotorista.lineEdit_2.text()
@@ -127,6 +134,8 @@ def cadastrarMotorista():
         categoriaCnh = cadastroMotorista.lineEdit_7.text().lower()
         vencimentoSeguro = cadastroMotorista.lineEdit_6.text().lower()
 =======
+=======
+>>>>>>> Stashed changes
         nomeMotorista = cadastroMotorista.lineEdit.text().upper()
         cpfMotorista = cadastroMotorista.lineEdit_2.text()
         placaMotorista = cadastroMotorista.lineEdit_3.text().upper()
@@ -134,6 +143,9 @@ def cadastrarMotorista():
         vencimentoCnh = cadastroMotorista.lineEdit_5.text()
         categoriaCnh = cadastroMotorista.lineEdit_7.text().upper()
         vencimentoSeguro = cadastroMotorista.lineEdit_6.text()
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         ############################ - CONVERTER TEXTO PARA DATA - ##################################
         dataHoje = datetime.today().strftime("%d/%m/%Y")
@@ -148,8 +160,13 @@ def cadastrarMotorista():
         banco = sqlite3.connect ('_db/cadastro.db')
         cursor = banco.cursor()
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_motorista (nome text, cpf INTEGER NOT NULL PRIMARY KEY, placa text, cnh INTEGER, vencimento_cnh text, categoria_cnh text(2), vencimento_seguro text, vencida_cnh text, dias_vencida integer, seguro_vencido text, seguro_dias_vencido integer)")
         cursor.execute (f"INSERT INTO cadastro_motorista VALUES ('{nomeMotorista}', '{cpfMotorista}', '{placaMotorista}', '{cnhMotorista}', '{converterData}', '{categoriaCnh}', '{converterSeguro}', '{dataFormatada} DIAS PARA VENCER - {converterData}', '{dataFormatada}', '{seguroFormatado} DIAS PARA VENCER - {converterSeguro}', '{seguroFormatado}')")
+=======
+        cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_motorista (nome text, cpf INTEGER NOT NULL PRIMARY KEY, placa text, cnh INTEGER, vencimento_cnh text, categoria_cnh text(2), vencimento_seguro text, dias_vencida integer, seguro_dias_vencido integer)")
+        cursor.execute (f"INSERT INTO cadastro_motorista VALUES ('{nomeMotorista}', '{cpfMotorista}', '{placaMotorista}', '{cnhMotorista}', '{converterData}', '{categoriaCnh}', '{converterSeguro}', '{dataFormatada}', '{seguroFormatado}')")
+>>>>>>> Stashed changes
 =======
         cursor.execute("CREATE TABLE IF NOT EXISTS cadastro_motorista (nome text, cpf INTEGER NOT NULL PRIMARY KEY, placa text, cnh INTEGER, vencimento_cnh text, categoria_cnh text(2), vencimento_seguro text, dias_vencida integer, seguro_dias_vencido integer)")
         cursor.execute (f"INSERT INTO cadastro_motorista VALUES ('{nomeMotorista}', '{cpfMotorista}', '{placaMotorista}', '{cnhMotorista}', '{converterData}', '{categoriaCnh}', '{converterSeguro}', '{dataFormatada}', '{seguroFormatado}')")
@@ -193,22 +210,29 @@ def listaComboBox():
 
     for category in data:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         atualizacaoMotorista.comboBox.addItem(category[0])
 
     banco.commit()
     banco.close()
 
 =======
+=======
+>>>>>>> Stashed changes
         atualizacaoMotorista.comboBox.addItem(category[0].upper())
 
     banco.commit()
     banco.close()
     
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 def listarDadosMotorista():
     try:
         banco = sqlite3.connect ('_db/cadastro.db')
         cursor = banco.cursor()
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         nome = atualizacaoMotorista.comboBox.currentText()
         cursor.execute(f"select nome, cpf, placa, cnh, vencimento_cnh, categoria_cnh, vencimento_seguro from cadastro_motorista WHERE nome = '{nome}'")
@@ -221,6 +245,8 @@ def listarDadosMotorista():
         atualizacaoMotorista.lineEdit_5.setText(str(resultado[0][4]))
         atualizacaoMotorista.lineEdit_7.setText(str(resultado[0][5]))
 =======
+=======
+>>>>>>> Stashed changes
         nome = atualizacaoMotorista.comboBox.currentText().upper()
         cursor.execute(f"select nome, cpf, placa, cnh, vencimento_cnh, categoria_cnh, vencimento_seguro from cadastro_motorista WHERE nome = '{nome}'")
         resultado = cursor.fetchall()
@@ -231,6 +257,9 @@ def listarDadosMotorista():
         atualizacaoMotorista.lineEdit_4.setText(str(resultado[0][3]))
         atualizacaoMotorista.lineEdit_5.setText(str(resultado[0][4]))
         atualizacaoMotorista.lineEdit_7.setText(str(resultado[0][5].upper()))
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         atualizacaoMotorista.lineEdit_6.setText(str(resultado[0][6]))
 
@@ -253,6 +282,7 @@ def atualizarCadastroMotorista():
         cursor = banco.cursor()
         
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         nomeMotorista = atualizacaoMotorista.lineEdit.text()
         cpfMotorista = atualizacaoMotorista.lineEdit_2.text()
         placaMotorista = atualizacaoMotorista.lineEdit_3.text()
@@ -271,6 +301,8 @@ def atualizarCadastroMotorista():
             cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{vencimentoCnh}', categoria_cnh='{categoriaCnh}', vencimento_seguro='{vencimentoSeguro}', vencida_cnh='{dataFormatada} DIAS PARA VENCER - {vencimentoCnh}', dias_vencida='{dataFormatada}', seguro_vencido='{seguroFormatado} DIAS PARA VENCER - {vencimentoSeguro}', seguro_dias_vencido='{seguroFormatado}'  where cpf= '{cpfMotorista}'")
             
 =======
+=======
+>>>>>>> Stashed changes
         nomeMotorista = atualizacaoMotorista.lineEdit.text().upper()
         cpfMotorista = atualizacaoMotorista.lineEdit_2.text()
         placaMotorista = atualizacaoMotorista.lineEdit_3.text().upper()
@@ -309,6 +341,9 @@ def atualizarCadastroMotorista():
             cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{converterData}', categoria_cnh='{categoriaCnh}', dias_vencida='{dataFormatada}' where cpf= '{cpfMotorista}'")
             print('ELIF 1')
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         else:
             ############################ - CONVERTER TEXTO PARA DATA - ################################# 
@@ -322,14 +357,20 @@ def atualizarCadastroMotorista():
             #############################################################################################
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{converterData}', categoria_cnh='{categoriaCnh}', vencimento_seguro='{converterSeguro}', vencida_cnh='{dataFormatada} DIAS PARA VENCER - {converterData}', dias_vencida='{dataFormatada}', seguro_vencido='{seguroFormatado} DIAS PARA VENCER - {converterSeguro}', seguro_dias_vencido='{seguroFormatado}'  where cpf= '{cpfMotorista}'")
             
 =======
+=======
+>>>>>>> Stashed changes
             cursor .execute (f"update cadastro_motorista set nome='{nomeMotorista}', placa='{placaMotorista}', cnh='{cnhMotorista}', vencimento_cnh='{converterData}', categoria_cnh='{categoriaCnh}', vencimento_seguro='{converterSeguro}', dias_vencida='{dataFormatada}', seguro_dias_vencido='{seguroFormatado}'  where cpf= '{cpfMotorista}'")
             print('2')
 
         
         
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         banco.commit()
         banco.close()
@@ -341,7 +382,11 @@ def atualizarCadastroMotorista():
         msg.setText('Atualização não realizada')
         msg.setInformativeText('Preencher os dados com o formato correto!')
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+=======
+        msg.setStandardButtons(QMessageBox.Ok)
+>>>>>>> Stashed changes
 =======
         msg.setStandardButtons(QMessageBox.Ok)
 >>>>>>> Stashed changes
@@ -368,7 +413,11 @@ def excluirMotorista():
         banco = sqlite3.connect ('_db/cadastro.db')
         cursor = banco.cursor()
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         nome = atualizacaoMotorista.comboBox.currentText()
+=======
+        nome = atualizacaoMotorista.comboBox.currentText().upper()
+>>>>>>> Stashed changes
 =======
         nome = atualizacaoMotorista.comboBox.currentText().upper()
 >>>>>>> Stashed changes
@@ -404,7 +453,11 @@ def envioEmail():
     
     if 10 in lista_cnh_vencida or 20 in lista_cnh_vencida or 30 in lista_cnh_vencida:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         print(email_cadastro)
+=======
+        
+>>>>>>> Stashed changes
 =======
         
 >>>>>>> Stashed changes
@@ -414,7 +467,11 @@ def envioEmail():
 
         #username ou email para logar no servidor
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         username = ''
+=======
+        username = 'entregas.portaporta@gmail.com'
+>>>>>>> Stashed changes
 =======
         username = 'entregas.portaporta@gmail.com'
 >>>>>>> Stashed changes
@@ -458,7 +515,11 @@ def envioEmail():
 
         #username ou email para logar no servidor
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         username = ''
+=======
+        username = 'entregas.portaporta@gmail.com'
+>>>>>>> Stashed changes
 =======
         username = 'entregas.portaporta@gmail.com'
 >>>>>>> Stashed changes
@@ -517,15 +578,21 @@ atualizacaoMotorista.pushButton_2.clicked.connect(excluirMotorista)
 
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 telaLogin.pushButton_3.clicked.connect(lambda:telaLogin.frame_5.hide())
 
 
 =======
+=======
+>>>>>>> Stashed changes
 
 telaLogin.pushButton_3.clicked.connect(lambda:telaLogin.frame_5.hide())
 
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 telaLogin.frame_5.hide()
 
