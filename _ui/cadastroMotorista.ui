@@ -17,6 +17,10 @@
    <iconset>
     <normaloff>../_img/login.png</normaloff>../_img/login.png</iconset>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../_img/login.png</normaloff>../_img/login.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
     <size>

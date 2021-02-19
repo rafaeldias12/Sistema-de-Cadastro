@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+<<<<<<< Updated upstream
  <class>AtualizaoDeMotorista</class>
  <widget class="QMainWindow" name="AtualizaoDeMotorista">
+=======
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+>>>>>>> Stashed changes
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +16,11 @@
    </rect>
   </property>
   <property name="windowTitle">
+<<<<<<< Updated upstream
    <string>Atualização de Motorista</string>
+=======
+   <string>MainWindow</string>
+>>>>>>> Stashed changes
   </property>
   <property name="windowIcon">
    <iconset>
