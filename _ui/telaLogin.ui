@@ -29,6 +29,9 @@
    <iconset>
     <normaloff>../_img/login.png</normaloff>../_img/login.png</iconset>
   </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>
@@ -62,7 +65,7 @@ background-color: rgb(0, 0, 0);</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(107, 176, 219);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -92,7 +95,7 @@ background-color: rgb(0, 0, 0);</string>
     <item>
      <widget class="QFrame" name="frame_2">
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(107, 176, 219);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -125,7 +128,7 @@ background-color: rgb(0, 0, 0);</string>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(16, 16, 16);
+          <string notr="true">background-color: rgb(162, 210, 255);
 border-radius: 10px;</string>
          </property>
          <property name="frameShape">
@@ -138,7 +141,7 @@ border-radius: 10px;</string>
           <property name="geometry">
            <rect>
             <x>60</x>
-            <y>248</y>
+            <y>200</y>
             <width>280</width>
             <height>50</height>
            </rect>
@@ -151,28 +154,47 @@ border-radius: 10px;</string>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI Black</family>
-            <pointsize>10</pointsize>
+            <family>Arial</family>
+            <pointsize>11</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
+          <property name="cursor">
+           <cursorShape>IBeamCursor</cursorShape>
+          </property>
+          <property name="tabletTracking">
+           <bool>false</bool>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::StrongFocus</enum>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
+          </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit{
-	border: 2px solid rgb(85, 0, 255);
-	border-radius: 5px;
-	padding: 15px;
-	background-color:  rgb(255, 255, 255);
+	border-bottom: 2px solid rgb(255, 255, 255);
+	border-radius: 0px;
+	padding: 5px;
+	padding-bottom: -10px;
+	background-color: rgb(162, 210, 255);
 	color: rgb(0, 0, 0);
+	
+	selection-color: rgb(255, 85, 127);
 }
 
 QLineEdit:hover{
-	border: 3px solid rgb(148, 94, 255);
+	border-bottom: 2px solid rgb(107, 176, 219);
+	
 }
 
 QLineEdit:focus{
-	border: 2px solid rgb(255, 20, 63);
+	border-bottom: 2px solid rgb(107, 176, 219);
 }</string>
+          </property>
+          <property name="maxLength">
+           <number>32</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -185,7 +207,7 @@ QLineEdit:focus{
           <property name="geometry">
            <rect>
             <x>60</x>
-            <y>310</y>
+            <y>280</y>
             <width>280</width>
             <height>50</height>
            </rect>
@@ -198,28 +220,33 @@ QLineEdit:focus{
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI Black</family>
-            <pointsize>10</pointsize>
+            <family>Arial</family>
+            <pointsize>11</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit{
-	border: 2px solid rgb(85, 0, 255);
-	border-radius: 5px;
-	padding: 15px;
-	background-color:  rgb(255, 255, 255);
+	border-bottom: 2px solid rgb(255, 255, 255);
+	border-radius: 0px;
+	padding: 5px;
+	padding-bottom: -10px;
+	background-color: rgb(162, 210, 255);
 	color: rgb(0, 0, 0);
 }
 
 QLineEdit:hover{
-	border: 3px solid rgb(148, 94, 255);
+	border-bottom: 2px solid rgb(107, 176, 219);
+	
 }
 
 QLineEdit:focus{
-	border: 2px solid rgb(255, 20, 63);
+	border-bottom: 2px solid rgb(107, 176, 219);
 }</string>
+          </property>
+          <property name="maxLength">
+           <number>16</number>
           </property>
           <property name="frame">
            <bool>true</bool>
@@ -238,17 +265,17 @@ QLineEdit:focus{
           <property name="geometry">
            <rect>
             <x>60</x>
-            <y>429</y>
+            <y>400</y>
             <width>280</width>
             <height>40</height>
            </rect>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
-            <pointsize>12</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
+            <family>Arial</family>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="layoutDirection">
@@ -256,13 +283,14 @@ QLineEdit:focus{
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton{
-	background-color: rgb(85, 0, 255);
+	background-color: rgb(50, 76, 92);
 	background-position: center;
 	border-radius:5px;
 }
 QPushButton:hover{
-	background-color: rgb(85, 0, 255);
-	border: 3px solid rgb(148, 94, 255);
+	
+	background-color: rgb(107, 176, 219);
+	border: 2px solid rgb(255, 255, 255);
 }
 QPushButton:pressed{
 	border: 2px solid rgb(255, 255, 255);
@@ -270,16 +298,16 @@ QPushButton:pressed{
 }</string>
           </property>
           <property name="text">
-           <string>LOGAR</string>
+           <string>ENTRAR</string>
           </property>
          </widget>
          <widget class="QLabel" name="label">
           <property name="geometry">
            <rect>
-            <x>120</x>
-            <y>110</y>
-            <width>141</width>
-            <height>131</height>
+            <x>0</x>
+            <y>0</y>
+            <width>400</width>
+            <height>171</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -289,7 +317,10 @@ QPushButton:pressed{
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>../_img/logo.jpg</pixmap>
+           <pixmap>../_img/logo_size_invert-removebg-preview.png</pixmap>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
           <property name="wordWrap">
            <bool>false</bool>
@@ -318,9 +349,14 @@ QPushButton:pressed{
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
-            <pointsize>10</pointsize>
+            <family>Arial</family>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);</string>
           </property>
           <property name="text">
            <string>Não tem cadastro?</string>
@@ -329,27 +365,31 @@ QPushButton:pressed{
          <widget class="QPushButton" name="pushButton">
           <property name="geometry">
            <rect>
-            <x>270</x>
+            <x>260</x>
             <y>500</y>
-            <width>71</width>
+            <width>81</width>
             <height>31</height>
            </rect>
           </property>
           <property name="font">
            <font>
-            <family>Segoe UI</family>
-            <pointsize>10</pointsize>
+            <family>Arial</family>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
-	background-color: rgb(85, 0, 255);
+	
+	background-color: rgb(50, 76, 92);
 	border-radius: 3px;
 }
 
 QPushButton:hover {
-	background-color: rgb(85, 0, 255);
-	border: 3px solid rgb(148, 94, 255);
+	
+	background-color: rgb(107, 176, 219);
+	border: 2px solid rgb(255, 255, 255);
 }
 QPushButton:pressed{
 	border: 2px solid rgb(255, 255, 255);
@@ -364,7 +404,7 @@ QPushButton:pressed{
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>359</y>
+            <y>330</y>
             <width>401</width>
             <height>61</height>
            </rect>
@@ -401,19 +441,21 @@ QPushButton:pressed{
            <property name="geometry">
             <rect>
              <x>60</x>
-             <y>9</y>
+             <y>10</y>
              <width>280</width>
              <height>51</height>
             </rect>
            </property>
            <property name="font">
             <font>
-             <family>Segoe UI</family>
+             <family>Arial Black</family>
              <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">color: rgb(0, 0, 0);</string>
            </property>
            <property name="text">
             <string/>
@@ -425,22 +467,6 @@ QPushButton:pressed{
           <zorder>label_4</zorder>
           <zorder>pushButton_3</zorder>
          </widget>
-         <widget class="QLabel" name="label_5">
-          <property name="geometry">
-           <rect>
-            <x>19</x>
-            <y>20</y>
-            <width>381</width>
-            <height>91</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap>../_img/letramento.png</pixmap>
-          </property>
-         </widget>
          <zorder>frame_5</zorder>
          <zorder>lineEdit</zorder>
          <zorder>lineEdit_2</zorder>
@@ -448,7 +474,6 @@ QPushButton:pressed{
          <zorder>label</zorder>
          <zorder>label_3</zorder>
          <zorder>pushButton</zorder>
-         <zorder>label_5</zorder>
         </widget>
        </item>
       </layout>
@@ -472,7 +497,7 @@ QPushButton:pressed{
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(107, 176, 219);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -485,12 +510,18 @@ QPushButton:pressed{
         <widget class="QLabel" name="label_2">
          <property name="font">
           <font>
-           <family>Segoe UI</family>
-           <pointsize>10</pointsize>
+           <family>Arial</family>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(107, 176, 219);
+color: rgb(45, 74, 92);</string>
+         </property>
          <property name="text">
-          <string>Desenvolvido por RV::Technology ©</string>
+          <string>Desenvolvido por Rafael Dias ©</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
